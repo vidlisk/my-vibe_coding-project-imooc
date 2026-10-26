@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>财务管家 - Frontend测试报告</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 20px; }
+        .summary { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+        .summary-item { padding: 16px; }
+        .summary-value { font-size: 32px; font-weight: 700; color: #FFB7C5; }
+        .summary-label { font-size: 14px; color: #666; margin-top: 4px; }
+        .passed .summary-value { color: #52c41a; }
+        .failed .summary-value { color: #ff4d4f; }
+        .test-list { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .test-item { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #f0f0f0; }
+        .test-item:last-child { border-bottom: none; }
+        .test-name { flex: 1; font-size: 14px; color: #333; }
+        .test-message { font-size: 12px; color: #999; margin-left: 12px; }
+        .test-status { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; margin-right: 12px; }
+        .status-icon { font-size: 16px; }
+        .passed .status-icon { color: #52c41a; }
+        .failed .status-icon { color: #ff4d4f; }
+        .footer { text-align: center; color: #999; font-size: 12px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>财务管家 - Frontend Web应用测试报告</h1>
+        <div class="summary">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">76</div>
+                    <div class="summary-label">总计</div>
+                </div>
+                <div class="summary-item passed">
+                    <div class="summary-value">76</div>
+                    <div class="summary-label">通过</div>
+                </div>
+                <div class="summary-item failed">
+                    <div class="summary-value">0</div>
+                    <div class="summary-label">失败</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">100%</div>
+                    <div class="summary-label">通过率</div>
+                </div>
+            </div>
+        </div>
+        <div class="test-list">
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: login.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: register.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: dashboard.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: add_record.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: statistics.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: transaction_history.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: settings.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: account.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">页面存在: category.html</div>
+                <div class="test-message">文件存在</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">login.html - DOCTYPE</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">login.html - HTML标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">login.html - HEAD标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">login.html - BODY标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">login.html - Title</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">dashboard.html - DOCTYPE</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">dashboard.html - HTML标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">dashboard.html - HEAD标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">dashboard.html - BODY标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">dashboard.html - Title</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">statistics.html - DOCTYPE</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">statistics.html - HTML标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">statistics.html - HEAD标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">statistics.html - BODY标签</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">statistics.html - Title</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">登录页 - 用户名输入框</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">登录页 - 密码输入框</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">登录页 - 登录按钮</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">登录页 - 注册链接</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">注册页 - 用户名输入框</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">注册页 - 密码输入框</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">注册页 - 昵称输入框</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">注册页 - 注册按钮</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">首页 - 收入显示</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">首页 - 支出显示</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">首页 - 分类列表</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">首页 - 最近记账</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">首页 - 底部导航</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 支出按钮</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 收入按钮</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 金额输入</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 分类选择</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 账户选择</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 日期选择</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 备注输入</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">记一笔 - 保存按钮</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">统计页 - 年度选择</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">统计页 - 收入总计</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">统计页 - 支出总计</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">统计页 - 结余显示</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">统计页 - 图表引用</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">统计页 - Canvas元素</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">明细页 - 筛选功能</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">明细页 - 交易列表</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">明细页 - 分页功能</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">设置页 - 用户信息</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">设置页 - 分类管理入口</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">设置页 - 账户管理入口</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">设置页 - 退出登录</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">login.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">login.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">register.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">register.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">dashboard.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">dashboard.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">add_record.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">add_record.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">statistics.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">statistics.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">transaction_history.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">transaction_history.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">settings.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">settings.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">account.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">account.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">category.html - 样式引用</div>
+                <div class="test-message">有样式</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">category.html - 脚本引用</div>
+                <div class="test-message">有脚本</div>
+            </div>
+            
+        </div>
+        <div class="footer">生成时间: 2026/5/18 13:53:11</div>
+    </div>
+</body>
+</html>
