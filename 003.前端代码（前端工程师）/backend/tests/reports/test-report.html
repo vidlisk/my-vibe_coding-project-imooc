@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>财务管家 - 核心业务流程测试报告</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 20px; }
+        .summary { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+        .summary-item { padding: 16px; }
+        .summary-value { font-size: 32px; font-weight: 700; color: #FFB7C5; }
+        .summary-label { font-size: 14px; color: #666; margin-top: 4px; }
+        .passed .summary-value { color: #52c41a; }
+        .failed .summary-value { color: #ff4d4f; }
+        .test-list { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .test-item { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #f0f0f0; }
+        .test-item:last-child { border-bottom: none; }
+        .test-name { flex: 1; font-size: 14px; color: #333; }
+        .test-message { font-size: 12px; color: #999; margin-left: 12px; }
+        .test-status { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; margin-right: 12px; }
+        .status-icon { font-size: 16px; }
+        .passed .status-icon { color: #52c41a; }
+        .failed .status-icon { color: #ff4d4f; }
+        .footer { text-align: center; color: #999; font-size: 12px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>财务管家 - 核心业务流程测试报告</h1>
+        <div class="summary">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">21</div>
+                    <div class="summary-label">总计</div>
+                </div>
+                <div class="summary-item passed">
+                    <div class="summary-value">21</div>
+                    <div class="summary-label">通过</div>
+                </div>
+                <div class="summary-item failed">
+                    <div class="summary-value">0</div>
+                    <div class="summary-label">失败</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">100%</div>
+                    <div class="summary-label">通过率</div>
+                </div>
+            </div>
+        </div>
+        <div class="test-list">
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">用户注册</div>
+                <div class="test-message">用户已存在或注册成功</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">用户登录</div>
+                <div class="test-message">Token: eyJhbGciOiJIUzI1NiIs...</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">Token验证</div>
+                <div class="test-message"></div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">获取用户信息</div>
+                <div class="test-message">用户: test_1779083301640</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">获取账户列表</div>
+                <div class="test-message">共 3 个账户</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">添加账户</div>
+                <div class="test-message">ID: 60</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">更新账户</div>
+                <div class="test-message">更新成功</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">获取分类列表</div>
+                <div class="test-message">共 0 个分类</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">筛选支出分类</div>
+                <div class="test-message">共 0 个</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">添加分类</div>
+                <div class="test-message">ID: 181</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">添加交易记录</div>
+                <div class="test-message">ID: 54</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">获取交易列表</div>
+                <div class="test-message">共 1 条记录</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">筛选支出记录</div>
+                <div class="test-message">共 1 条</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">获取首页数据</div>
+                <div class="test-message">收入: 0, 支出: 100</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">获取统计数据</div>
+                <div class="test-message">年收入: 0, 年支出: 100</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">删除交易记录</div>
+                <div class="test-message">删除成功</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">删除账户</div>
+                <div class="test-message">删除成功</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">删除分类</div>
+                <div class="test-message">删除成功</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">未授权访问拒绝</div>
+                <div class="test-message">状态码: 401</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">SQL注入防护</div>
+                <div class="test-message">已防护</div>
+            </div>
+            
+            <div class="test-item">
+                <div class="test-status passed">
+                    <span class="status-icon">✓</span>
+                </div>
+                <div class="test-name">无效Token拒绝</div>
+                <div class="test-message">状态码: 500</div>
+            </div>
+            
+        </div>
+        <div class="footer">生成时间: 2026/5/18 13:48:21</div>
+    </div>
+</body>
+</html>
