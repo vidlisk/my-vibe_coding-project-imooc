@@ -264,34 +264,35 @@
         return;
       }
 
-      // 按月份分组
+      // 按月份分组（用 YYYY-MM 作排序键，显示时再拼成 YYYY年M月）
       const grouped = {};
       filteredTransactions.forEach(tx => {
         const date = new Date(tx.transaction_date);
-        const monthKey = `${date.getFullYear()}年${date.getMonth() + 1}月`;
+        const sortKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        const displayKey = `${date.getFullYear()}年${date.getMonth() + 1}月`;
 
-        if (!grouped[monthKey]) {
-          grouped[monthKey] = [];
+        if (!grouped[sortKey]) {
+          grouped[sortKey] = { display: displayKey, txs: [] };
         }
-        grouped[monthKey].push(tx);
+        grouped[sortKey].txs.push(tx);
       });
 
       // 按月份排序（最新的在前）
-      const monthOrder = Object.keys(grouped).sort();
+      const monthOrder = Object.keys(grouped).sort().reverse();
 
       container.innerHTML = '';
 
       // 从最新月份开始渲染
-      for (let i = monthOrder.length - 1; i >= 0; i--) {
-        const month = monthOrder[i];
+      for (const sortKey of monthOrder) {
+        const group = grouped[sortKey];
+        const month = group.display;
         const monthHtml = `<div style="font-size: 14px; color: #8E8E8E; margin-bottom: 12px;">${month}</div>`;
         container.innerHTML += monthHtml;
 
-        const txs = grouped[month];
+        const txs = group.txs;
         let txListHtml = '';
 
-        for (let j = txs.length - 1; j >= 0; j--) {
-          const tx = txs[j];
+        for (const tx of txs) {
           const date = new Date(tx.transaction_date);
           const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
           const amountClass = tx.type_name === 'income' ? '#7DD3C0' : '#FFA09B';
@@ -349,36 +350,7 @@
         }
       });
 
-      // 触摸滑动检测（手机端）
-      let touchStartY = 0;
-      let touchStartX = 0;
-
-      document.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
-        touchStartX = e.touches[0].clientX;
-      }, { passive: true });
-
-      document.addEventListener('touchmove', function(e) {
-        const touchY = e.touches[0].clientY;
-        const touchX = e.touches[0].clientX;
-        const deltaY = touchStartY - touchY;
-        const deltaX = touchStartX - touchX;
-
-        // 向上滑动
-        if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY < 0) {
-          // 距离底部100px时加载更多
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          const scrollHeight = document.documentElement.scrollHeight;
-          const clientHeight = document.documentElement.clientHeight;
-
-          if (scrollTop + clientHeight >= scrollHeight - 100) {
-            if (hasMore && !isLoading) {
-              currentPage++;
-              loadTransactions();
-            }
-          }
-        }
-      }, { passive: true });
+      // 手机端上滑分页由上方 window 的 scroll 监听统一处理，无需单独的触摸手势
     }
 
     // 页面加载完成后初始化

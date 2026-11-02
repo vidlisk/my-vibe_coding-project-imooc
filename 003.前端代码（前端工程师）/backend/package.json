@@ -1,11 +1,11 @@
 {
   "name": "finance-manager-backend",
   "version": "1.0.0",
-  "description": "财务管家后端 - 登录/注册 API（Express + MySQL）",
-  "main": "src/server.js",
+  "description": "财务管家后端 API（Express + MySQL）",
+  "main": "server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -13,6 +13,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^2.5.0",
     "mysql2": "^3.10.0"
   }
 }

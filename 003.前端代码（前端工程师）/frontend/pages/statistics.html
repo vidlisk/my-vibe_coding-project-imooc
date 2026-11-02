@@ -100,11 +100,7 @@
   <div style="padding: 20px; margin-top: 0px;">
     <!-- 年份选择 -->
     <div style="margin-bottom: 16px;">
-      <select id="yearSelect" class="year-select" onchange="loadStatistics()">
-        <option value="2026">2026年</option>
-        <option value="2025">2025年</option>
-        <option value="2024">2024年</option>
-      </select>
+      <select id="yearSelect" class="year-select" onchange="loadStatistics()"></select>
     </div>
 
     <!-- 本月概览 -->
@@ -185,6 +181,20 @@
     // 格式化金额
     function formatAmount(amount) {
       return amount ? amount.toLocaleString('zh-CN') : '0';
+    }
+
+    // 动态生成年份选项：当前年份往前推 10 年
+    function initYearSelect() {
+      const select = document.getElementById('yearSelect');
+      const currentYear = new Date().getFullYear();
+      select.innerHTML = '';
+      for (let y = currentYear; y >= currentYear - 9; y--) {
+        const option = document.createElement('option');
+        option.value = y;
+        option.textContent = y + '年';
+        select.appendChild(option);
+      }
+      select.value = currentYear;
     }
 
     // 加载统计数据
@@ -348,6 +358,7 @@
     // 页面加载完成后初始化
     window.addEventListener('DOMContentLoaded', function() {
       checkLogin();
+      initYearSelect();
       loadStatistics();
     });
   </script>

@@ -8,6 +8,9 @@ const mysql = require('mysql2/promise');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -17,6 +20,25 @@ const JWT_SECRET = process.env.JWT_SECRET || 'finance-manager-secret-key-2026';
 // 中间件
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
+
+// 头像上传目录 + 静态托管
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+app.use('/uploads', express.static(uploadDir));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname) || '.jpg';
+    cb(null, `avatar_${Date.now()}_${Math.round(Math.random() * 1e9)}${ext}`);
+  }
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) =>
+    file.mimetype.startsWith('image/') ? cb(null, true) : cb(new Error('仅支持图片文件'))
+});
 
 // 数据库连接池
 const pool = mysql.createPool({
@@ -50,6 +72,50 @@ async function getUserIdFromToken(req) {
   const token = authHeader.split(' ')[1];
   const decoded = jwt.verify(token, JWT_SECRET);
   return decoded.userId;
+}
+
+// 确保用户存在默认账本（没有则自动补建「默认账本」+ 3 个默认账户），返回账本 id
+async function ensureDefaultLedger(userId) {
+  const [existing] = await pool.execute(
+    'SELECT id FROM ledgers WHERE user_id = ? AND is_default = 1',
+    [userId]
+  );
+  if (existing.length > 0) {
+    return existing[0].id;
+  }
+
+  // 老账号（简化版注册）没有账本：自动补建
+  await pool.execute(
+    'INSERT INTO ledgers (user_id, name, description, is_default) VALUES (?, ?, ?, ?)',
+    [userId, '默认账本', '我的第一个账本', 1]
+  );
+
+  const [ledger] = await pool.execute(
+    'SELECT id FROM ledgers WHERE user_id = ? AND is_default = 1',
+    [userId]
+  );
+  const ledgerId = ledger[0].id;
+
+  const accountTypes = [
+    { name: '现金', icon: '💵', color: '#FFB7C5' },
+    { name: '微信支付', icon: '📱', color: '#7DD3C0' },
+    { name: '支付宝', icon: '🟢', color: '#FF8FA3' }
+  ];
+
+  for (const type of accountTypes) {
+    const [typeResult] = await pool.execute(
+      'SELECT id FROM account_types WHERE name = ?',
+      [type.name]
+    );
+    if (typeResult.length > 0) {
+      await pool.execute(
+        'INSERT INTO accounts (ledger_id, user_id, type_id, name, icon, color, initial_balance, current_balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [ledgerId, userId, typeResult[0].id, type.name, type.icon, type.color, 0, 0]
+      );
+    }
+  }
+
+  return ledgerId;
 }
 
 // ==============================
@@ -99,35 +165,8 @@ app.post('/api/register', async (req, res) => {
 
     const userId = result.insertId;
 
-    await pool.execute(
-      'INSERT INTO ledgers (user_id, name, description, is_default) VALUES (?, ?, ?, ?)',
-      [userId, '默认账本', '我的第一个账本', 1]
-    );
-
-    const [ledger] = await pool.execute(
-      'SELECT id FROM ledgers WHERE user_id = ? AND is_default = 1',
-      [userId]
-    );
-
-    const ledgerId = ledger[0].id;
-    const accountTypes = [
-      { name: '现金', icon: '💵', color: '#FFB7C5' },
-      { name: '微信支付', icon: '📱', color: '#7DD3C0' },
-      { name: '支付宝', icon: '🟢', color: '#FF8FA3' }
-    ];
-
-    for (const type of accountTypes) {
-      const [typeResult] = await pool.execute(
-        'SELECT id FROM account_types WHERE name = ?',
-        [type.name]
-      );
-      if (typeResult.length > 0) {
-        await pool.execute(
-          'INSERT INTO accounts (ledger_id, user_id, type_id, name, icon, color, initial_balance, current_balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-          [ledgerId, userId, typeResult[0].id, type.name, type.icon, type.color, 0, 0]
-        );
-      }
-    }
+    // 自动创建默认账本 + 3 个默认账户（现金/微信/支付宝）
+    await ensureDefaultLedger(userId);
 
     const token = jwt.sign(
       { userId, username },
@@ -181,6 +220,9 @@ app.post('/api/login', async (req, res) => {
         message: '用户名或密码错误'
       });
     }
+
+    // 老账号没有账本时自动补建（默认账本 + 3 个默认账户）
+    await ensureDefaultLedger(user.id);
 
     const [ledgers] = await pool.execute(
       'SELECT id, name, description, is_default FROM ledgers WHERE user_id = ?',
@@ -306,6 +348,39 @@ app.put('/api/user', async (req, res) => {
 });
 
 // ==============================
+// 上传用户头像
+// ==============================
+app.post('/api/user/avatar', upload.single('avatar'), async (req, res) => {
+  try {
+    const userId = await getUserIdFromToken(req);
+    if (!userId) {
+      return res.status(401).json({ success: false, message: '未授权' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: '未上传文件' });
+    }
+
+    const avatarUrl = `/uploads/${req.file.filename}`;
+
+    // 删除旧头像文件（避免垃圾文件堆积）
+    const [old] = await pool.execute('SELECT avatar_url FROM users WHERE id = ?', [userId]);
+    if (old[0] && old[0].avatar_url && old[0].avatar_url.startsWith('/uploads/')) {
+      const oldPath = path.join(uploadDir, path.basename(old[0].avatar_url));
+      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+    }
+
+    await pool.execute('UPDATE users SET avatar_url = ? WHERE id = ?', [avatarUrl, userId]);
+
+    res.json({ success: true, message: '头像更新成功', data: { avatarUrl } });
+
+  } catch (error) {
+    console.error('头像上传错误:', error);
+    res.status(500).json({ success: false, message: error.message || '服务器错误' });
+  }
+});
+
+// ==============================
 // 获取账户列表
 // ==============================
 app.get('/api/accounts', async (req, res) => {
@@ -314,6 +389,8 @@ app.get('/api/accounts', async (req, res) => {
     if (!userId) {
       return res.status(401).json({ success: false, message: '未授权' });
     }
+
+    await ensureDefaultLedger(userId);
 
     const [accounts] = await pool.execute(
       'SELECT a.*, at.name as type_name, at.icon as type_icon FROM accounts a LEFT JOIN account_types at ON a.type_id = at.id WHERE a.user_id = ? ORDER BY a.sort_order',
@@ -343,16 +420,7 @@ app.post('/api/accounts', async (req, res) => {
       return res.status(400).json({ success: false, message: '账户名称不能为空' });
     }
 
-    const [ledger] = await pool.execute(
-      'SELECT id FROM ledgers WHERE user_id = ? AND is_default = 1',
-      [userId]
-    );
-
-    if (ledger.length === 0) {
-      return res.status(400).json({ success: false, message: '账本不存在' });
-    }
-
-    const ledgerId = ledger[0].id;
+    const ledgerId = await ensureDefaultLedger(userId);
     const accountTypeId = type_id || 1;
     const accountColor = color || '#FFB7C5';
 
@@ -573,16 +641,7 @@ app.post('/api/transactions', async (req, res) => {
       return res.status(400).json({ success: false, message: '缺少必要参数' });
     }
 
-    const [ledger] = await pool.execute(
-      'SELECT id FROM ledgers WHERE user_id = ? AND is_default = 1',
-      [userId]
-    );
-
-    if (ledger.length === 0) {
-      return res.status(400).json({ success: false, message: '账本不存在' });
-    }
-
-    const ledgerId = ledger[0].id;
+    const ledgerId = await ensureDefaultLedger(userId);
 
     const [categoryCheck] = await pool.execute(
       'SELECT id, type_id FROM categories WHERE id = ?',
@@ -961,6 +1020,11 @@ app.get('/api/category-types', async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: '服务器错误' });
   }
+});
+
+// 统一错误处理（含 multer 上传错误）
+app.use((err, req, res, next) => {
+  res.status(400).json({ success: false, message: err.message || '上传失败' });
 });
 
 // 启动服务器
